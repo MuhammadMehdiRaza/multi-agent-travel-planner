@@ -1,0 +1,32 @@
+# Secrets - never commit real API keys
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+langgraph_env*/
+
+# Tooling output
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+reports/
+.mypy_cache/
+.ruff_cache/
+
+# Local data
+*.sqlite3
+*.db
+data/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
