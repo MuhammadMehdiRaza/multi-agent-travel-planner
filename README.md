@@ -12,8 +12,8 @@ Semester project for **SE423 Software Construction and Development** and
 | Team member | Registration no. | Primary ownership |
 |---|---|---|
 | Ahmed Yar Durrani | 2023076 | Team Lead; Module 4 - Approval Workflow & Persistence |
-| Mian Muhammad Owais | 2023316 | Module 1 - Request Intake & Guardrails; Module 3 - Budget & Itinerary Planning |
-| Muhammad Mehdi Raza | 2023466 | Module 2 - Travel Research Integration; shared kernel |
+| Mian Muhammad Owais | 2023316 | Module 1 - Request Intake & Guardrails; Module 3 - Budget & Itinerary Planning; 5.3 LLM reliability decorators |
+| Muhammad Mehdi Raza | 2023466 | Module 2 - Travel Research Integration; Module 5 - Shared Kernel; 4.4 integration factories |
 
 > **Status - Milestone 1 (design baseline).** This repository currently holds the project
 > documentation and branch strategy. The implementation is being built test-first on
@@ -21,14 +21,17 @@ Semester project for **SE423 Software Construction and Development** and
 
 ---
 
-## Functional modules
+## Modules
+
+Modules 1-4 are the functional modules. Module 5 is a supporting module with the code all of them share.
 
 | # | Module | Scope (one line) |
 |---|---|---|
 | 1 | Request Intake & Guardrails | Validates the request, blocks off-topic and prompt-injection input, extracts trip constraints and selects the agents to run. |
 | 2 | Travel Research Integration | Collects flight, hotel and weather information through MCP servers; the three research agents run concurrently. |
 | 3 | Budget & Itinerary Planning | Parses the budget, estimates the trip cost, gives a FEASIBLE / TIGHT / OVER_BUDGET verdict and drafts the itinerary. |
-| 4 | Approval Workflow & Persistence | Pauses for human approval with a bounded revision loop, stores plans and approval decisions, exposes one facade to the UI. |
+| 4 | Approval Workflow & Persistence | Pauses for human approval with a bounded revision loop, stores plans and approval decisions, exposes one facade to the UI; its composition root (4.4) builds the live or sample objects. |
+| 5 | Shared Kernel (supporting) | Domain value objects (5.1), the `LLMClient` interface and Groq adapter (5.2), logging and retry decorators for LLM calls (5.3), and the error types, settings and JSON reading (5.4). |
 
 Design highlights: SOLID-based object-oriented design, plus the Abstract Factory, Adapter,
 Facade, Decorator and Strategy patterns. The design document submitted for Milestone 1
@@ -42,6 +45,8 @@ Tavily · AviationStack · OpenWeatherMap · PostgreSQL / SQLite · Streamlit ·
 ---
 
 ## Setup
+
+The setup below applies from Milestone 2, when the code is merged into `main`.
 
 ### 1. Prerequisites
 
@@ -105,8 +110,8 @@ pylint travel_planner weather_mcp_server.py       # static analysis
 radon cc travel_planner -a                        # cyclomatic complexity
 ```
 
-The CI pipeline (`.github/workflows/ci.yml`) runs the tests, a 60% coverage gate and a
-pylint quality gate on every push and pull request.
+From Milestone 2, the CI pipeline (`.github/workflows/ci.yml`) runs the tests, a 60% coverage
+gate and a pylint quality gate on every push and pull request.
 
 ---
 

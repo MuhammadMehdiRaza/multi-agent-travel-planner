@@ -20,7 +20,7 @@ feature/...      ●──●────●    ●──●───●──�
 | `refactor/<topic>` | Behaviour-preserving restructuring | `main` | `main` |
 | `test/<topic>`, `docs/<topic>`, `ci/<topic>` | Tests, documentation, pipeline | `main` | `main` |
 
-Module prefixes: `intake` (Module 1), `research` (Module 2), `planning` (Module 3), `workflow` (Module 4).
+Module prefixes: `intake` (Module 1), `research` (Module 2), `planning` (Module 3), `workflow` (Module 4), `kernel` (Module 5).
 
 ## 2. Rules for `main`
 
