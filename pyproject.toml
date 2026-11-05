@@ -1,0 +1,32 @@
+# Project settings and the settings of our quality tools (pytest, coverage.py, pylint).
+
+[project]
+name = "travel-planner-mas"
+version = "0.1.0"
+description = "Multi-agent travel planning system (SE423/SE431 joint project)"
+requires-python = ">=3.11"
+
+# pytest: where the tests are, and "." on the import path so tests can import travel_planner
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+# coverage.py: measure the travel_planner package, including branches (if/else)
+[tool.coverage.run]
+source = ["travel_planner"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+# pylint: static analysis of the application code (the tests are not checked)
+[tool.pylint.main]
+ignore = [".venv", "tests"]
+
+[tool.pylint."messages control"]
+disable = ["missing-module-docstring", "too-few-public-methods"]
+
+[tool.pylint.format]
+max-line-length = 110
