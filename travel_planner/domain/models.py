@@ -204,17 +204,22 @@ class RoutingDecision:
 
     def __post_init__(self):
         # Business rule: the itinerary agent always runs, and agents run in AGENT_ORDER.
-        wanted = set(self.selected_agents)
-        wanted.add(AgentName.ITINERARY)
-        ordered = tuple(agent for agent in AGENT_ORDER if agent in wanted)
+        ordered = []
+        for agent in AGENT_ORDER:
+            if agent in self.selected_agents or agent is AgentName.ITINERARY:
+                ordered.append(agent)
         # A frozen dataclass cannot use "self.x = ..."; object.__setattr__ is the
         # standard way to set a field while the object is being constructed.
-        object.__setattr__(self, "selected_agents", ordered)
+        object.__setattr__(self, "selected_agents", tuple(ordered))
 
     @property
     def research_agents(self) -> tuple[AgentName, ...]:
         """The selected agents that collect external data (flight / hotel / weather)."""
-        return tuple(agent for agent in self.selected_agents if agent in RESEARCH_AGENTS)
+        agents = []
+        for agent in self.selected_agents:
+            if agent in RESEARCH_AGENTS:
+                agents.append(agent)
+        return tuple(agents)
 
     def includes(self, agent: AgentName) -> bool:
         return agent in self.selected_agents
