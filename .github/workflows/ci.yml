@@ -1,0 +1,36 @@
+# Continuous integration: build and run the automated test suite on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run tests with coverage (quality gate - at least 60%)
+        run: pytest --cov=travel_planner --cov-report=term --cov-report=xml --cov-fail-under=60
+
+      - name: Static analysis (quality gate - pylint score at least 8.0)
+        run: pylint travel_planner weather_mcp_server.py --fail-under=8.0
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
