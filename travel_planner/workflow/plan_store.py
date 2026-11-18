@@ -152,14 +152,19 @@ class SqlPlanStore(TripPlanRepository, ApprovalAuditLog):
         return records
 
     def record_decision(self, thread_id: str, approved: bool, feedback: str) -> None:
-        self._run(INSERT_DECISION, (str(uuid.uuid4()), thread_id, approved, feedback, self._now().isoformat()))
+        event_id = str(uuid.uuid4())
+        decided_at = self._now().isoformat()
+        self._run(INSERT_DECISION, (event_id, thread_id, approved, feedback, decided_at))
 
     def decisions_for_thread(self, thread_id: str) -> list[ApprovalEvent]:
         rows = self._run(SELECT_DECISIONS, (thread_id,))
-        return [
-            ApprovalEvent(row[0], row[1], bool(row[2]), row[3], datetime.fromisoformat(row[4]))
-            for row in rows
-        ]
+        events = []
+        for row in rows:
+            events.append(ApprovalEvent(
+                event_id=row[0], thread_id=row[1], approved=bool(row[2]), feedback=row[3],
+                decided_at=datetime.fromisoformat(row[4]),
+            ))
+        return events
 
     def _now(self) -> datetime:
         # Two decisions in the same microsecond would sort randomly, so keep timestamps increasing.
