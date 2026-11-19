@@ -74,15 +74,21 @@ class RetryingLLMClient(LLMClientDecorator):
         self._sleep = sleep  # injectable so tests do not really wait
 
     def complete(self, system_prompt: str, user_prompt: str) -> str:
+        attempt = 1
         delay = self._backoff_seconds
-        for attempt in range(1, self._max_attempts + 1):
+        while True:
             try:
                 return super().complete(system_prompt, user_prompt)
             except ExternalServiceError as error:
                 if not error.retryable or attempt == self._max_attempts:
-                    raise
-                wait = min(max(delay, error.retry_after_seconds or 0), self.MAX_WAIT_SECONDS)
+                    raise  # permanent error, or no attempts left: give the error to the caller
+
+                wait = delay
+                if error.retry_after_seconds and error.retry_after_seconds > wait:
+                    wait = error.retry_after_seconds  # the service told us how long to wait
+                wait = min(wait, self.MAX_WAIT_SECONDS)
+
                 logger.info("Retrying LLM call in %.1fs (attempt %d of %d)", wait, attempt + 1, self._max_attempts)
                 self._sleep(wait)
-                delay = delay * 2
-        raise AssertionError("unreachable")  # the loop always returns or raises
+                delay = delay * 2  # exponential back-off: 1 s, 2 s, 4 s, ...
+                attempt = attempt + 1
