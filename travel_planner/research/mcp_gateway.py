@@ -40,7 +40,10 @@ class McpToolGateway(ToolGateway):
     def call_tool(self, tool_name: str, arguments: dict):
         tool = self._get_tool(tool_name)
         try:
-            return asyncio.run(asyncio.wait_for(tool.ainvoke(arguments), timeout=self._timeout))
+            # MCP tools are asynchronous. wait_for() adds the time limit, and asyncio.run()
+            # runs the call to the end inside this worker thread (each thread uses its own event loop).
+            call_with_time_limit = asyncio.wait_for(tool.ainvoke(arguments), timeout=self._timeout)
+            return asyncio.run(call_with_time_limit)
         except TimeoutError as error:
             raise ResearchTimeoutError(tool_name, f"no answer within {self._timeout} seconds") from error
         except Exception as error:  # MCP / HTTP libraries raise many types; convert them to one of ours
@@ -72,6 +75,8 @@ def hide_secrets(text: str) -> str:
 
 def describe_error(error: BaseException) -> str:
     """Readable message, including the inner errors of an ExceptionGroup. API keys are masked."""
+    # An ExceptionGroup (raised when an MCP server cannot be started) holds several errors in
+    # .exceptions; describe each of them. A normal error has no .exceptions attribute.
     inner_errors = getattr(error, "exceptions", None)
     if inner_errors:
         return "; ".join(describe_error(inner) for inner in inner_errors)
