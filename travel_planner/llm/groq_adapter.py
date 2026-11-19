@@ -13,16 +13,24 @@ from travel_planner.shared.exceptions import ConfigurationError, ExternalService
 # Groq's free tier allows 8,000 tokens per minute and counts the requested answer length,
 # so every request asks for at most this many answer tokens.
 MAX_ANSWER_TOKENS = 2048
-# HTTP status codes that will never succeed if the same request is sent again.
-PERMANENT_STATUS_CODES = range(400, 429)
+
+
+def is_permanent_error(status_code) -> bool:
+    """HTTP 400-428 (bad request, unknown model, request too large) fail again if the same request is sent."""
+    if status_code is None:  # no HTTP status, e.g. a network error: worth trying again
+        return False
+    return 400 <= status_code <= 428
 
 
 def retry_after_seconds(error: Exception) -> float | None:
     """Read the 'retry-after' header that Groq sends with a rate-limit (429) answer."""
-    headers = getattr(getattr(error, "response", None), "headers", None) or {}
+    response = getattr(error, "response", None)  # not every error has an HTTP response
+    if response is None:
+        return None
+    headers = getattr(response, "headers", None) or {}
     try:
         return float(headers.get("retry-after"))
-    except (TypeError, ValueError):
+    except (TypeError, ValueError):  # header missing or not a number
         return None
 
 
@@ -37,7 +45,12 @@ class GroqChatAdapter(LLMClient):
         # replace langchain_groq.ChatGroq with a fake (monkeypatch) before the adapter is created.
         from langchain_groq import ChatGroq  # pylint: disable=import-outside-toplevel
 
-        options = {"model": model, "api_key": api_key, "temperature": temperature, "max_tokens": MAX_ANSWER_TOKENS}
+        options = {
+            "model": model,
+            "api_key": api_key,
+            "temperature": temperature,
+            "max_tokens": MAX_ANSWER_TOKENS,
+        }
         if model.startswith("openai/gpt-oss"):
             # gpt-oss models "think" before answering; low effort keeps the answers fast and short.
             options["reasoning_effort"] = "low"
@@ -48,11 +61,11 @@ class GroqChatAdapter(LLMClient):
         try:
             response = self._chat_model.invoke(messages)
         except Exception as error:  # the SDK can raise many types; convert them to one of ours
-            status = getattr(error, "status_code", None)
+            status_code = getattr(error, "status_code", None)  # None if the error has no HTTP status
             raise ExternalServiceError(
                 "groq",
                 str(error),
-                retryable=status not in PERMANENT_STATUS_CODES,
+                retryable=not is_permanent_error(status_code),
                 retry_after_seconds=retry_after_seconds(error),
             ) from error
         return str(response.content)
