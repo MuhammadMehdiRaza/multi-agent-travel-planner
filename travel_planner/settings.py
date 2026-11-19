@@ -43,24 +43,24 @@ class Settings:
         if env is None:
             env = os.environ
 
-        def read(name: str, default: str = "") -> str:
-            return str(env.get(name, default)).strip()
+        # The AviationStack MCP server accepts both names, so both are accepted here too.
+        aviation_key = _read(env, "AVIATION_STACK_API_KEY") or _read(env, "AVIATIONSTACK_API_KEY")
 
         settings = cls(
-            groq_api_key=read("GROQ_API_KEY"),
-            groq_model=read("GROQ_MODEL", DEFAULT_GROQ_MODEL),
-            data_source=read("DATA_SOURCE", "sample").lower(),
-            tavily_api_key=read("TAVILY_API_KEY"),
-            # The AviationStack MCP server accepts both names, so both are accepted here too.
-            aviation_stack_api_key=read("AVIATION_STACK_API_KEY") or read("AVIATIONSTACK_API_KEY"),
-            openweather_api_key=read("OPENWEATHER_API_KEY"),
-            database_url=read("DATABASE_URL"),
-            aviationstack_mcp_python=read("AVIATIONSTACK_MCP_PYTHON"),
-            weather_mcp_python=read("WEATHER_MCP_PYTHON", sys.executable),
-            weather_mcp_script=read("WEATHER_MCP_SCRIPT", str(PROJECT_ROOT / "weather_mcp_server.py")),
-            sqlite_path=read("SQLITE_PATH", str(PROJECT_ROOT / "data" / "trip_plans.sqlite3")),
-            research_timeout_seconds=_positive_float(read("RESEARCH_TIMEOUT_SECONDS", "45"), "RESEARCH_TIMEOUT_SECONDS"),
-            max_revisions=_non_negative_int(read("MAX_REVISIONS", "2"), "MAX_REVISIONS"),
+            groq_api_key=_read(env, "GROQ_API_KEY"),
+            groq_model=_read(env, "GROQ_MODEL", DEFAULT_GROQ_MODEL),
+            data_source=_read(env, "DATA_SOURCE", "sample").lower(),
+            tavily_api_key=_read(env, "TAVILY_API_KEY"),
+            aviation_stack_api_key=aviation_key,
+            openweather_api_key=_read(env, "OPENWEATHER_API_KEY"),
+            database_url=_read(env, "DATABASE_URL"),
+            aviationstack_mcp_python=_read(env, "AVIATIONSTACK_MCP_PYTHON"),
+            weather_mcp_python=_read(env, "WEATHER_MCP_PYTHON", sys.executable),
+            weather_mcp_script=_read(env, "WEATHER_MCP_SCRIPT", str(PROJECT_ROOT / "weather_mcp_server.py")),
+            sqlite_path=_read(env, "SQLITE_PATH", str(PROJECT_ROOT / "data" / "trip_plans.sqlite3")),
+            research_timeout_seconds=_positive_float(
+                _read(env, "RESEARCH_TIMEOUT_SECONDS", "45"), "RESEARCH_TIMEOUT_SECONDS"),
+            max_revisions=_non_negative_int(_read(env, "MAX_REVISIONS", "2"), "MAX_REVISIONS"),
         )
         settings.validate()
         return settings
@@ -84,6 +84,11 @@ class Settings:
             "AVIATIONSTACK_MCP_PYTHON": self.aviationstack_mcp_python,
         }
         return [name for name, value in required.items() if not value]
+
+
+def _read(env, name: str, default: str = "") -> str:
+    """Read one setting as text without spaces at the ends; the default if it is not set."""
+    return str(env.get(name, default)).strip()
 
 
 def _positive_float(text: str, name: str) -> float:
