@@ -48,5 +48,9 @@ class RequestValidator:
     @staticmethod
     def normalise(text: str) -> str:
         """Remove control characters and collapse all whitespace to single spaces."""
-        printable = "".join(char for char in text if char.isprintable() or char.isspace())
-        return " ".join(printable.split())
+        kept = []
+        for char in text:
+            if char.isprintable() or char.isspace():  # drop invisible control characters
+                kept.append(char)
+        words = "".join(kept).split()  # split() also removes tabs, newlines and repeated spaces
+        return " ".join(words)
