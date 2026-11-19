@@ -141,7 +141,10 @@ class KeywordRoutingStrategy(RoutingStrategy):
         lowered = query.lower()
         budget_text = self.find_budget(query)
 
-        agents = [agent for agent, words in AGENT_KEYWORDS.items() if contains_word(lowered, words)]
+        agents = []
+        for agent, words in AGENT_KEYWORDS.items():
+            if contains_word(lowered, words):
+                agents.append(agent)
         if not agents or contains_word(lowered, COMPLETE_TRIP_WORDS):
             agents = list(RESEARCH_AGENTS)  # a general trip request needs all research
         if budget_text or contains_word(lowered, BUDGET_KEYWORDS):
