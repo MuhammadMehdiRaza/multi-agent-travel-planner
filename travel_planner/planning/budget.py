@@ -142,15 +142,14 @@ class BudgetAnalyzer:
     @staticmethod
     def estimate_costs(days: int, style: TravelStyle, destination: DestinationProfile) -> CostBreakdown:
         daily = DAILY_COSTS_USD[style]
-
-        def for_whole_trip(category: str) -> Money:
-            return Money(daily[category], "USD").multiply(destination.cost_index * days).rounded()
+        # cost of one day at an average destination x price level of this destination x number of days
+        trip_factor = destination.cost_index * days
 
         flights = Money(destination.round_trip_fare_usd, "USD").multiply(FLIGHT_FARE_FACTOR[style]).rounded()
-        accommodation = for_whole_trip("accommodation")
-        food = for_whole_trip("food")
-        local_transport = for_whole_trip("local_transport")
-        activities = for_whole_trip("activities")
+        accommodation = Money(daily["accommodation"], "USD").multiply(trip_factor).rounded()
+        food = Money(daily["food"], "USD").multiply(trip_factor).rounded()
+        local_transport = Money(daily["local_transport"], "USD").multiply(trip_factor).rounded()
+        activities = Money(daily["activities"], "USD").multiply(trip_factor).rounded()
 
         subtotal = flights.add(accommodation).add(food).add(local_transport).add(activities)
         contingency = subtotal.multiply(CONTINGENCY_RATE).rounded()
