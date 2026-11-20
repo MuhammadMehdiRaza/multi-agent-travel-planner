@@ -15,9 +15,10 @@ Semester project for **SE423 Software Construction and Development** and
 | Mian Muhammad Owais | 2023316 | Module 1 - Request Intake & Guardrails; Module 3 - Budget & Itinerary Planning; 5.3 LLM reliability decorators |
 | Muhammad Mehdi Raza | 2023466 | Module 2 - Travel Research Integration; Module 5 - Shared Kernel; 4.4 integration factories |
 
-> **Status - Milestone 1 (design baseline).** This repository currently holds the project
-> documentation and branch strategy. The implementation is being built test-first on
-> feature branches and will be merged into `main` through reviewed pull requests for Milestone 2.
+> **Status - Milestone 2 (working architecture).** The system runs end-to-end in sample mode
+> and in live mode. Every module was built test-first on its own feature branch and merged into
+> `main` through a reviewed pull request. Milestone baselines are tagged on `main`
+> (`m1-baseline`, `m2-baseline`).
 
 ---
 
@@ -45,8 +46,6 @@ Tavily · AviationStack · OpenWeatherMap · PostgreSQL / SQLite · Streamlit ·
 ---
 
 ## Setup
-
-The setup below applies from Milestone 2, when the code is merged into `main`.
 
 ### 1. Prerequisites
 
@@ -110,8 +109,8 @@ pylint travel_planner weather_mcp_server.py       # static analysis
 radon cc travel_planner -a                        # cyclomatic complexity
 ```
 
-From Milestone 2, the CI pipeline (`.github/workflows/ci.yml`) runs the tests, a 60% coverage
-gate and a pylint quality gate on every push and pull request.
+The CI pipeline (`.github/workflows/ci.yml`) runs the tests, a 60% coverage gate and a
+pylint quality gate on every push and pull request.
 
 ---
 
@@ -124,6 +123,6 @@ test-first commit convention and milestone baselines.
 
 The initial prototype was adapted from the public tutorial repository
 [codewithaarohi/Multi_agent_system_part_3](https://github.com/codewithaarohi/Multi_agent_system_part_3).
-It is kept in the history as the "before" baseline. The architecture, refactoring, new
+The team rebuilt it with a new modular architecture. The architecture, refactoring, new
 modules, tests and documentation are the team's own work. Use of AI assistants is
 recorded in the AI Usage Log submitted with each milestone, as the course guidelines require.
