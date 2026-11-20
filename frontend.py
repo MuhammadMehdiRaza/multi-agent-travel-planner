@@ -80,7 +80,12 @@ def show_snapshot(facade, snapshot) -> None:
 
     left, right = st.columns(2)
     for index, (heading, text) in enumerate(snapshot.sections.items()):
-        with left if index % 2 == 0 else right:
+        # sections alternate between the left and the right column
+        if index % 2 == 0:
+            column = left
+        else:
+            column = right
+        with column:
             st.subheader(heading)
             if heading == "Budget" and snapshot.budget_verdict in VERDICT_STYLE:
                 VERDICT_STYLE[snapshot.budget_verdict](f"Budget verdict: {snapshot.budget_verdict.replace('_', ' ')}")
