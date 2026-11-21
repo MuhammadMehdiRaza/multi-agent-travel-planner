@@ -31,7 +31,8 @@ DESTINATION_PROFILES = {
     # Asia & Middle East
     "japan": profile("1.3", "950"), "tokyo": profile("1.3", "950"), "kyoto": profile("1.3", "950"),
     "osaka": profile("1.3", "950"), "china": profile("0.9", "700"), "thailand": profile("0.6", "450"),
-    "bangkok": profile("0.6", "450"), "malaysia": profile("0.6", "500"), "kuala lumpur": profile("0.6", "500"),
+    "bangkok": profile("0.6", "450"), "malaysia": profile("0.6", "500"),
+    "kuala lumpur": profile("0.6", "500"),
     "singapore": profile("1.3", "550"), "indonesia": profile("0.6", "650"), "bali": profile("0.6", "650"),
     "sri lanka": profile("0.5", "400"), "maldives": profile("1.6", "600"), "dubai": profile("1.1", "350"),
     "uae": profile("1.1", "350"), "saudi arabia": profile("0.9", "550"), "makkah": profile("0.9", "550"),

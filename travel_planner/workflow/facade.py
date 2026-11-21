@@ -41,7 +41,8 @@ class PlanningSnapshot:
     supervisor_reasoning: str = ""
     routing_strategy: str = ""
     selected_agents: tuple[str, ...] = ()
-    sections: dict = field(default_factory=dict)  # {"Flights": ..., "Hotels": ..., "Weather": ..., "Budget": ...}
+    # {"Flights": ..., "Hotels": ..., "Weather": ..., "Budget": ...}
+    sections: dict = field(default_factory=dict)
     research_failures: tuple[str, ...] = ()
     budget_verdict: str = ""
     draft_itinerary: str = ""

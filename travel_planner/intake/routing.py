@@ -104,7 +104,9 @@ AGENT_KEYWORDS = {
 BUDGET_KEYWORDS = ["budget", "cost", "price", "afford", "cheap", "expense"]
 COMPLETE_TRIP_WORDS = ["complete", "full", "entire", "everything", "whole"]
 
-BUDGET_STYLE_WORDS = ["budget hotel", "budget travel", "budget trip", "cheap", "backpack", "hostel", "low-cost"]
+BUDGET_STYLE_WORDS = [
+    "budget hotel", "budget travel", "budget trip", "cheap", "backpack", "hostel", "low-cost",
+]
 LUXURY_STYLE_WORDS = ["luxury", "luxurious", "5-star", "five star", "premium", "high-end"]
 
 NOT_PLACES = {

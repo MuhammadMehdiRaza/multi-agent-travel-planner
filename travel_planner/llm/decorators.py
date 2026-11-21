@@ -46,7 +46,9 @@ class LoggingLLMClient(LLMClientDecorator):
         try:
             answer = super().complete(system_prompt, user_prompt)
         except ExternalServiceError as error:
-            logger.warning("[%s] LLM call failed after %.2fs: %s", self._label, time.perf_counter() - start, error)
+            logger.warning(
+                "[%s] LLM call failed after %.2fs: %s", self._label, time.perf_counter() - start, error
+            )
             raise
         logger.debug(
             "[%s] LLM call took %.2fs (prompt %d chars, answer %d chars)",
@@ -65,7 +67,9 @@ class RetryingLLMClient(LLMClientDecorator):
 
     MAX_WAIT_SECONDS = 30
 
-    def __init__(self, wrapped: LLMClient, max_attempts: int = 3, backoff_seconds: float = 1.0, sleep=time.sleep):
+    def __init__(
+        self, wrapped: LLMClient, max_attempts: int = 3, backoff_seconds: float = 1.0, sleep=time.sleep
+    ):
         super().__init__(wrapped)
         if max_attempts < 1:
             raise ValueError("max_attempts must be at least 1")
@@ -88,7 +92,9 @@ class RetryingLLMClient(LLMClientDecorator):
                     wait = error.retry_after_seconds  # the service told us how long to wait
                 wait = min(wait, self.MAX_WAIT_SECONDS)
 
-                logger.info("Retrying LLM call in %.1fs (attempt %d of %d)", wait, attempt + 1, self._max_attempts)
+                logger.info(
+                    "Retrying LLM call in %.1fs (attempt %d of %d)", wait, attempt + 1, self._max_attempts
+                )
                 self._sleep(wait)
                 delay = delay * 2  # exponential back-off: 1 s, 2 s, 4 s, ...
                 attempt = attempt + 1

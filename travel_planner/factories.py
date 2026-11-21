@@ -13,7 +13,9 @@ The family is chosen in exactly one place: create_integration_factory().
 
 from abc import ABC, abstractmethod
 
-from travel_planner.research.mcp_adapters import McpFlightDataAdapter, McpHotelSearchAdapter, McpWeatherAdapter
+from travel_planner.research.mcp_adapters import (
+    McpFlightDataAdapter, McpHotelSearchAdapter, McpWeatherAdapter,
+)
 from travel_planner.research.mcp_gateway import McpToolGateway, live_mcp_connections
 from travel_planner.research.ports import FlightDataProvider, HotelSearchProvider, WeatherProvider
 from travel_planner.research.sample_data import SampleFlightData, SampleHotelData, SampleWeatherData
@@ -59,7 +61,9 @@ class LiveIntegrationFactory(IntegrationFactory):
     def __init__(self, settings: Settings):
         super().__init__(settings)
         # One gateway shared by all adapters, so the MCP tools are loaded only once.
-        self._gateway = McpToolGateway(self._create_mcp_client, call_timeout_seconds=settings.research_timeout_seconds)
+        self._gateway = McpToolGateway(
+            self._create_mcp_client, call_timeout_seconds=settings.research_timeout_seconds
+        )
         self._pool = None
 
     def close(self) -> None:
