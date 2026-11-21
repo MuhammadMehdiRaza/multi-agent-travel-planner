@@ -63,7 +63,8 @@ class McpToolGateway(ToolGateway):
                 try:
                     tools = asyncio.run(client.get_tools())
                 except Exception as error:  # connection problems arrive as ExceptionGroups
-                    raise ExternalServiceError("mcp", "could not load tools: " + describe_error(error)) from error
+                    message = "could not load tools: " + describe_error(error)
+                    raise ExternalServiceError("mcp", message) from error
                 self._tools = {tool.name: tool for tool in tools}
             return self._tools
 

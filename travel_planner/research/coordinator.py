@@ -76,4 +76,5 @@ class ResearchCoordinator:
             # Last-resort guard at the thread boundary: an unexpected bug in one agent
             # must not crash the other agents. The full traceback is logged.
             logger.exception("Unexpected error in %s research", agent.name.label)
-            return ResearchFinding.failed(agent.name, "unexpected internal error", time.perf_counter() - start)
+            elapsed = time.perf_counter() - start
+            return ResearchFinding.failed(agent.name, "unexpected internal error", elapsed)
