@@ -84,7 +84,9 @@ class PlanningNodes:
 
     # ------------------------------------------------------------------ Module 3
     def budget(self, state: TravelState) -> dict:
-        advice = self._budget_advisor.advise(state["user_query"], constraints_from(state), research_sections(state))
+        advice = self._budget_advisor.advise(
+            state["user_query"], constraints_from(state), research_sections(state)
+        )
         return {"budget_results": advice.report, "budget_verdict": advice.assessment.verdict.value}
 
     def draft_itinerary(self, state: TravelState) -> dict:
@@ -139,7 +141,11 @@ class PlanningNodes:
 
         revisions_done = state.get("revision_count", 0)
         next_step = self._revision_policy.next_step(decision, revisions_done)
-        update = {"approved": decision.approved, "human_feedback": decision.feedback, "next_step": next_step.value}
+        update = {
+            "approved": decision.approved,
+            "human_feedback": decision.feedback,
+            "next_step": next_step.value,
+        }
         if next_step is NextStep.REVISE:
             update["revision_count"] = revisions_done + 1
         return update
