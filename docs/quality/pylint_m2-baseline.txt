@@ -1,0 +1,145 @@
+************* Module travel_planner.factories
+travel_planner\factories.py:16:0: C0301: Line too long (111/110) (line-too-long)
+travel_planner\factories.py:62:0: C0301: Line too long (119/110) (line-too-long)
+travel_planner\factories.py:27:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\factories.py:58:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\factories.py:111:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.settings
+travel_planner\settings.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\settings.py:23:0: R0902: Too many instance attributes (13/7) (too-many-instance-attributes)
+travel_planner\settings.py:68:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\settings.py:78:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.domain.models
+travel_planner\domain\models.py:28:0: R0911: Too many return statements (7/6) (too-many-return-statements)
+travel_planner\domain\models.py:98:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\domain\models.py:224:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\domain\models.py:239:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\domain\models.py:242:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.intake.guardrail
+travel_planner\intake\guardrail.py:13:0: C0301: Line too long (112/110) (line-too-long)
+travel_planner\intake\guardrail.py:29:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\intake\guardrail.py:43:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.intake.routing
+travel_planner\intake\routing.py:107:0: C0301: Line too long (112/110) (line-too-long)
+travel_planner\intake\routing.py:36:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\intake\routing.py:72:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\intake\routing.py:137:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\intake\routing.py:169:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\intake\routing.py:179:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\intake\routing.py:184:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\intake\routing.py:191:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.intake.service
+travel_planner\intake\service.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\intake\service.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.llm.decorators
+travel_planner\llm\decorators.py:49:0: C0301: Line too long (115/110) (line-too-long)
+travel_planner\llm\decorators.py:68:0: C0301: Line too long (114/110) (line-too-long)
+travel_planner\llm\decorators.py:91:0: C0301: Line too long (115/110) (line-too-long)
+************* Module travel_planner.llm.groq_adapter
+travel_planner\llm\groq_adapter.py:39:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.planning.budget
+travel_planner\planning\budget.py:36:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget.py:64:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\budget.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\budget.py:82:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget.py:102:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget.py:108:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\budget.py:143:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.planning.budget_parser
+travel_planner\planning\budget_parser.py:34:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.planning.budget_report
+travel_planner\planning\budget_report.py:22:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget_report.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\budget_report.py:62:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget_report.py:83:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\budget_report.py:89:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.planning.destinations
+travel_planner\planning\destinations.py:34:0: C0301: Line too long (111/110) (line-too-long)
+travel_planner\planning\destinations.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\destinations.py:20:0: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\destinations.py:49:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.planning.itinerary
+travel_planner\planning\itinerary.py:46:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\itinerary.py:50:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\itinerary.py:102:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\itinerary.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.planning.money
+travel_planner\planning\money.py:30:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\money.py:43:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\money.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\money.py:51:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\planning\money.py:59:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\planning\money.py:63:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.research.agents
+travel_planner\research\agents.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\research\agents.py:49:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\agents.py:88:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.research.coordinator
+travel_planner\research\coordinator.py:79:0: C0301: Line too long (111/110) (line-too-long)
+travel_planner\research\coordinator.py:31:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.research.mcp_adapters
+travel_planner\research\mcp_adapters.py:46:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\mcp_adapters.py:78:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\mcp_adapters.py:87:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.research.mcp_gateway
+travel_planner\research\mcp_gateway.py:66:0: C0301: Line too long (114/110) (line-too-long)
+travel_planner\research\mcp_gateway.py:33:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.research.ports
+travel_planner\research\ports.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\ports.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\ports.py:25:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.research.sample_data
+travel_planner\research\sample_data.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\sample_data.py:21:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\research\sample_data.py:31:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.workflow.approval
+travel_planner\workflow\approval.py:36:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\approval.py:40:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\approval.py:54:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.workflow.facade
+travel_planner\workflow\facade.py:44:0: C0301: Line too long (114/110) (line-too-long)
+travel_planner\workflow\facade.py:28:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\facade.py:35:0: R0902: Too many instance attributes (14/7) (too-many-instance-attributes)
+travel_planner\workflow\facade.py:55:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\facade.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\facade.py:69:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\facade.py:76:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\facade.py:79:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\facade.py:121:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.workflow.nodes
+travel_planner\workflow\nodes.py:87:0: C0301: Line too long (116/110) (line-too-long)
+travel_planner\workflow\nodes.py:142:0: C0301: Line too long (115/110) (line-too-long)
+travel_planner\workflow\nodes.py:34:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\nodes.py:34:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
+travel_planner\workflow\nodes.py:35:4: R0913: Too many arguments (8/5) (too-many-arguments)
+travel_planner\workflow\nodes.py:35:4: R0917: Too many positional arguments (8/5) (too-many-positional-arguments)
+travel_planner\workflow\nodes.py:56:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:73:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:86:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:90:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:101:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:130:4: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:149:0: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:153:0: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:159:0: C0116: Missing function or method docstring (missing-function-docstring)
+travel_planner\workflow\nodes.py:164:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.workflow.plan_store
+travel_planner\workflow\plan_store.py:27:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\plan_store.py:27:0: R0902: Too many instance attributes (10/7) (too-many-instance-attributes)
+travel_planner\workflow\plan_store.py:50:4: R0913: Too many arguments (9/5) (too-many-arguments)
+travel_planner\workflow\plan_store.py:50:4: R0917: Too many positional arguments (9/5) (too-many-positional-arguments)
+travel_planner\workflow\plan_store.py:68:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\plan_store.py:78:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\plan_store.py:88:0: C0115: Missing class docstring (missing-class-docstring)
+travel_planner\workflow\plan_store.py:133:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module travel_planner.workflow.postgres_store
+travel_planner\workflow\postgres_store.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module travel_planner.workflow.state
+travel_planner\workflow\state.py:11:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module weather_mcp_server
+weather_mcp_server.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
+weather_mcp_server.py:50:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.24/10 (previous run: 9.33/10, -0.09)
+
