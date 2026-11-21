@@ -88,7 +88,8 @@ def show_snapshot(facade, snapshot) -> None:
         with column:
             st.subheader(heading)
             if heading == "Budget" and snapshot.budget_verdict in VERDICT_STYLE:
-                VERDICT_STYLE[snapshot.budget_verdict](f"Budget verdict: {snapshot.budget_verdict.replace('_', ' ')}")
+                verdict_text = snapshot.budget_verdict.replace('_', ' ')
+                VERDICT_STYLE[snapshot.budget_verdict](f"Budget verdict: {verdict_text}")
             show_markdown(text)
 
     st.subheader(f"Draft itinerary (revision {snapshot.revision_count})")
@@ -132,7 +133,9 @@ def main() -> None:
 
     query = st.text_area(
         "Travel request",
-        placeholder="Plan a 7-day Japan trip under Rs. 2 lakh. I prefer budget hotels and no overnight flights.",
+        placeholder=(
+            "Plan a 7-day Japan trip under Rs. 2 lakh. I prefer budget hotels and no overnight flights."
+        ),
         height=110,
     )
     if st.button("Create draft plan", type="primary"):
