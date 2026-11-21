@@ -66,3 +66,10 @@ def test_aviationstack_key_is_also_read_from_the_name_used_by_the_mcp_server():
     env = {key: value for key, value in LIVE_ENV.items() if key != "AVIATION_STACK_API_KEY"}
     env["AVIATIONSTACK_API_KEY"] = "from-other-name"
     assert Settings.from_env(env).aviation_stack_api_key == "from-other-name"
+
+
+def test_secrets_are_not_shown_when_settings_are_printed():
+    settings = Settings.from_env({"GROQ_API_KEY": "synthetic-groq-secret", "DATABASE_URL": "postgresql://u:pw@h/db"})
+    text = repr(settings)
+    assert "synthetic-groq-secret" not in text
+    assert "pw@h" not in text
