@@ -8,7 +8,7 @@ and invalid configuration fails fast with a clear ConfigurationError.
 
 import os
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from travel_planner.shared.exceptions import ConfigurationError
@@ -21,15 +21,16 @@ DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 
 @dataclass(frozen=True)
 class Settings:
-    groq_api_key: str
+    # Security (QR-04): repr=False keeps the secret fields out of printed or logged settings.
+    groq_api_key: str = field(repr=False)
     groq_model: str
     # "live"   = real MCP servers + PostgreSQL
     # "sample" = built-in sample data + SQLite (only the LLM is reached over the internet)
     data_source: str
-    tavily_api_key: str
-    aviation_stack_api_key: str
-    openweather_api_key: str
-    database_url: str
+    tavily_api_key: str = field(repr=False)
+    aviation_stack_api_key: str = field(repr=False)
+    openweather_api_key: str = field(repr=False)
+    database_url: str = field(repr=False)
     aviationstack_mcp_python: str
     weather_mcp_python: str
     weather_mcp_script: str
