@@ -60,7 +60,7 @@ class TravelPlanningFacade:
 
     def start_planning(self, user_id: str, query: str) -> PlanningSnapshot:
         user_id = validate_user_id(user_id)
-        thread_id = f"{user_id}-{uuid.uuid4().hex[:8]}"  # a new session for every request
+        thread_id = uuid.uuid4().hex  # a new session for every request; 32 characters fit VARCHAR(100)
         self._graph.invoke(
             {"thread_id": thread_id, "user_id": user_id, "user_query": query},
             config=self._config(thread_id),
