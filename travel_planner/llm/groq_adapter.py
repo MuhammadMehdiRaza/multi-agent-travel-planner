@@ -50,6 +50,8 @@ class GroqChatAdapter(LLMClient):
             "api_key": api_key,
             "temperature": temperature,
             "max_tokens": MAX_ANSWER_TOKENS,
+            "timeout": 30.0,  # seconds; a hung request now fails instead of waiting forever
+            "max_retries": 0,  # RetryingLLMClient is the only retry policy (no hidden SDK retries)
         }
         if model.startswith("openai/gpt-oss"):
             # gpt-oss models "think" before answering; low effort keeps the answers fast and short.

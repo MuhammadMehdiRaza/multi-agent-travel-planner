@@ -95,3 +95,9 @@ def test_server_and_network_errors_are_retryable(fake_groq, error):
         adapter.complete("s", "u")
     assert caught.value.retryable is True
     assert caught.value.retry_after_seconds is None
+
+
+def test_sdk_requests_have_a_timeout_and_do_not_duplicate_outer_retries(fake_groq):
+    GroqChatAdapter("test-model", "key")
+    assert fake_groq.created[0].kwargs["timeout"] == 30.0
+    assert fake_groq.created[0].kwargs["max_retries"] == 0
