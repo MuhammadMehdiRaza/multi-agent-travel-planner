@@ -192,3 +192,12 @@ def test_storage_failure_still_returns_the_final_plan(tmp_path):
     assert done.status is PlanStatus.COMPLETED
     assert done.final_plan == "FINAL PLAN"
     assert "could not be saved" in done.storage_warning
+
+
+def test_long_valid_user_id_does_not_exceed_the_thread_id_schema(tmp_path):
+    facade = make_facade(tmp_path)
+    user_id = "u" * 100  # the longest user ID the facade accepts
+    draft = facade.start_planning(user_id, JAPAN_QUERY)
+    assert len(draft.thread_id) <= 100  # thread_id is VARCHAR(100) in schema.sql
+    done = facade.submit_decision(draft.thread_id, True, "")
+    assert facade.history(user_id)[0].plan_id == done.plan_id
