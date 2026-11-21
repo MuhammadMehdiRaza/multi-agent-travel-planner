@@ -16,7 +16,8 @@ def test_zero_is_allowed():
     assert Money(0, "PKR").amount == 0
 
 
-@pytest.mark.parametrize("amount, currency", [(-1, "USD"), (100, "XYZ"), (100, "")])
+@pytest.mark.parametrize("amount, currency", [(-1, "USD"), (100, "XYZ"), (100, ""),
+                                            ("NaN", "USD"), ("Infinity", "USD"), ("bad", "USD")])
 def test_invalid_money_is_rejected(amount, currency):
     with pytest.raises(ValidationError):
         Money(amount, currency)

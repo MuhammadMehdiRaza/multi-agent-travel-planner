@@ -5,7 +5,7 @@ exactly, which causes rounding errors in money calculations.
 """
 
 from dataclasses import dataclass
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 
 from travel_planner.shared.exceptions import ValidationError
 
@@ -33,7 +33,13 @@ class Money:
 
     def __post_init__(self):
         # Accept int/str/float for convenience but always store a Decimal and an upper-case code.
-        object.__setattr__(self, "amount", Decimal(str(self.amount)))
+        try:
+            amount = Decimal(str(self.amount))
+        except InvalidOperation:
+            raise ValidationError("Money must be a finite number") from None
+        if not amount.is_finite():
+            raise ValidationError("Money must be a finite number")
+        object.__setattr__(self, "amount", amount)
         object.__setattr__(self, "currency", str(self.currency).upper())
         if self.amount < 0:
             raise ValidationError(f"Money cannot be negative: {self.amount}")
