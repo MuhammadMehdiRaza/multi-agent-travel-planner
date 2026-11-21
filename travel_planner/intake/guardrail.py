@@ -10,7 +10,9 @@ from travel_planner.shared.json_extraction import extract_json_object
 
 logger = logging.getLogger(__name__)
 
-GUARDRAIL_SYSTEM_PROMPT = "You are an input validation guardrail for a travel planner. Return strict JSON only."
+GUARDRAIL_SYSTEM_PROMPT = (
+    "You are an input validation guardrail for a travel planner. Return strict JSON only."
+)
 
 GUARDRAIL_PROMPT = """Determine whether the following request is a valid travel planning request.
 
