@@ -9,15 +9,18 @@ from decimal import Decimal
 import pytest
 
 from travel_planner.domain.models import TripConstraints
+from travel_planner.intake.guardrail import LLMInputGuardrail
 from travel_planner.intake.validation import RequestValidator
-from travel_planner.planning.budget import BudgetVerdict, classify_budget
+from travel_planner.planning.budget import BudgetAnalyzer, BudgetVerdict, classify_budget
 from travel_planner.planning.budget_parser import BudgetParser
-from travel_planner.planning.money import Money
+from travel_planner.planning.destinations import DestinationCatalog
+from travel_planner.planning.money import CurrencyConverter, Money
 from travel_planner.settings import Settings
 from travel_planner.shared.exceptions import (
     ConfigurationError, InvalidApprovalError, InvalidRequestError, ValidationError,
 )
 from travel_planner.workflow.approval import ApprovalDecision, NextStep, RevisionPolicy
+from tests.fakes import ScriptedLLMClient
 
 # ---------------------------------------------------------------- FR-01: request length 10..2000 characters
 ACCEPT, REJECT = "accept", "reject"
@@ -54,6 +57,14 @@ def test_invalid_request_content_is_rejected_with_a_reason(request_text):
     assert str(caught.value)  # QR-06: the traveller sees which rule failed
 
 
+def test_request_judged_not_about_travel_is_rejected_with_a_reason():
+    """TC-INT-01-EP7: a valid-length request that the guardrail judges not to be about travel (FR-01)."""
+    llm = ScriptedLLMClient(['{"allowed": false, "reason": "Only travel requests are supported."}'])
+    verdict = LLMInputGuardrail(llm).check("Write my history homework essay for tomorrow")
+    assert not verdict.allowed
+    assert verdict.reason == "Only travel requests are supported."  # QR-06: a reason is shown
+
+
 # ---------------------------------------------------------------- QR-01 / FR-05: budget verdict boundaries
 @pytest.mark.parametrize("ratio, verdict", [
     pytest.param("0.50", BudgetVerdict.FEASIBLE, id="TC-FUN-01-EP1-feasible"),
@@ -68,6 +79,13 @@ def test_invalid_request_content_is_rejected_with_a_reason(request_text):
 ])
 def test_budget_verdict(ratio, verdict):
     assert classify_budget(Decimal(ratio)) is verdict
+
+
+def test_no_budget_gives_the_unknown_verdict():
+    """TC-FUN-01-EP4: the request gives no budget, so the verdict is UNKNOWN (QR-01)."""
+    analyzer = BudgetAnalyzer(BudgetParser(), CurrencyConverter(), DestinationCatalog())
+    assessment = analyzer.assess(TripConstraints(destination="Rome", duration_days=4))
+    assert assessment.verdict is BudgetVerdict.UNKNOWN
 
 
 # ---------------------------------------------------------------- FR-05: budget text (currency partitions)
