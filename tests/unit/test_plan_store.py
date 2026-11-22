@@ -1,10 +1,13 @@
+import sqlite3
 import threading
+from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
 import pytest
 
 from travel_planner.shared.exceptions import PersistenceError, ValidationError
 from travel_planner.workflow.plan_store import SqlitePlanStore, TripPlanRecord
+from travel_planner.workflow.postgres_store import PostgresPlanStore
 
 START = datetime(2026, 10, 9, 12, 0, tzinfo=timezone.utc)
 
@@ -19,9 +22,43 @@ def make_record(user_id="mehdi", minutes=0, **changes):
     return TripPlanRecord.create(**values)
 
 
-@pytest.fixture
-def store(tmp_path):
-    return SqlitePlanStore(str(tmp_path / "plans.sqlite3"))
+class FakePostgresPool:
+    """Stands in for psycopg_pool.ConnectionPool: hands out connections that accept %s placeholders.
+
+    PostgresPlanStore can then run the same contract tests as SqlitePlanStore without a PostgreSQL server
+    (the real server is checked by the live smoke test).
+    """
+
+    def __init__(self, path):
+        self._path = path
+        self._lock = threading.Lock()
+
+    @contextmanager
+    def connection(self):
+        with self._lock:  # psycopg's pool gives each thread its own connection; one at a time is enough here
+            connection = sqlite3.connect(self._path)
+            try:
+                yield FakePostgresConnection(connection)
+                connection.commit()
+            finally:
+                connection.close()
+
+
+class FakePostgresConnection:
+    def __init__(self, connection):
+        self._connection = connection
+
+    def execute(self, sql, params=()):
+        return self._connection.execute(sql.replace("%s", "?"), params)
+
+
+# LSP: both plan stores must pass exactly the same tests.
+@pytest.fixture(params=["sqlite", "postgres"])
+def store(request, tmp_path):
+    path = str(tmp_path / "plans.sqlite3")
+    if request.param == "sqlite":
+        return SqlitePlanStore(path)
+    return PostgresPlanStore(FakePostgresPool(path))
 
 
 def test_saved_plan_can_be_read_back(store):

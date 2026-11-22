@@ -87,3 +87,18 @@ def test_findings_are_returned_in_selection_order():
         [A.FLIGHT, A.WEATHER], "q", CONSTRAINTS
     )
     assert list(findings) == [A.FLIGHT, A.WEATHER]
+
+
+def test_research_takes_at_most_1_5_times_the_slowest_agent():
+    """TC-PERF-01 (QR-02): worst of 10 runs with three simulated agents of 0.30, 0.20 and 0.25 seconds."""
+    slowest = 0.30
+    ratios = []
+    for _ in range(10):
+        agents = [SlowAgent(A.FLIGHT, 0.30), SlowAgent(A.HOTEL, 0.20), SlowAgent(A.WEATHER, 0.25)]
+        start = time.perf_counter()
+        findings = make_coordinator(*agents).run([A.FLIGHT, A.HOTEL, A.WEATHER], "q", CONSTRAINTS)
+        ratios.append((time.perf_counter() - start) / slowest)
+        assert all(finding.succeeded for finding in findings.values())
+
+    print(f"QR-02 ratios: {' '.join(f'{ratio:.3f}' for ratio in ratios)}; worst {max(ratios):.3f}")
+    assert max(ratios) <= 1.5  # one after another the ratio would be (0.30 + 0.20 + 0.25) / 0.30 = 2.5
