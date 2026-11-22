@@ -5,11 +5,14 @@ integration family - only the LLM is replaced by a scripted fake.
 """
 
 import json
+import time
 
 import pytest
 
 from travel_planner.bootstrap import assemble_facade
 from travel_planner.factories import SampleIntegrationFactory
+from travel_planner.llm.decorators import RetryingLLMClient
+from travel_planner.research.sample_data import SampleWeatherData
 from travel_planner.settings import Settings
 from travel_planner.shared.exceptions import ExternalServiceError, InvalidApprovalError, PersistenceError
 from travel_planner.workflow.facade import PlanStatus
@@ -201,3 +204,42 @@ def test_long_valid_user_id_does_not_exceed_the_thread_id_schema(tmp_path):
     assert len(draft.thread_id) <= 100  # thread_id is VARCHAR(100) in schema.sql
     done = facade.submit_decision(draft.thread_id, True, "")
     assert facade.history(user_id)[0].plan_id == done.plan_id
+
+
+# ------------------------------------------------------------------ QR-03: the three injected failures of M1
+def test_temporary_llm_error_is_retried_and_the_draft_is_still_produced(tmp_path):
+    """TC-REL-01 case 1: the itinerary call fails once with a temporary error (e.g. HTTP 503)."""
+    calls = []
+
+    def itinerary_fails_once(prompt):
+        calls.append(prompt)
+        if len(calls) == 1:
+            raise ExternalServiceError("groq", "503 service unavailable", retryable=True)
+        return "Draft v1"
+
+    llm = RetryingLLMClient(make_llm(**{"itinerary planner": itinerary_fails_once}), sleep=lambda seconds: None)
+    snapshot = make_facade(tmp_path, llm=llm).start_planning("mehdi", JAPAN_QUERY)
+
+    assert snapshot.status is PlanStatus.AWAITING_APPROVAL
+    assert snapshot.draft_itinerary == "Draft v1"
+    assert len(calls) == 2  # the failed call was retried once
+
+
+def test_research_agent_time_out_still_produces_the_draft(tmp_path):
+    """TC-REL-01 case 3: the weather service does not answer within the research time limit."""
+    class HangingWeather(SampleWeatherData):
+        def current_conditions(self, city):
+            time.sleep(2.0)
+            return super().current_conditions(city)
+
+    class HangingWeatherFactory(SampleIntegrationFactory):
+        def create_weather_provider(self):
+            return HangingWeather()
+
+    settings = make_settings(tmp_path, RESEARCH_TIMEOUT_SECONDS="0.5")
+    facade = assemble_facade(settings, make_llm(), HangingWeatherFactory(settings))
+    snapshot = facade.start_planning("mehdi", JAPAN_QUERY)
+
+    assert snapshot.status is PlanStatus.AWAITING_APPROVAL
+    assert snapshot.research_failures == ("Weather",)
+    assert snapshot.sections["Hotels"] == "Hotel guidance: Shinjuku"
