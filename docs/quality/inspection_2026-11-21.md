@@ -37,14 +37,14 @@ Inspectors: Muhammad Bilal (2023392, paired team), Ahmed Yar Durrani, Mian Muham
 
 | ID | Issue | Location | Defect | Requirement | Severity | Found by | Author | Status |
 |---|---|---|---|---|---|---|---|---|
-| D-01 | #18 | `travel_planner/planning/money.py:36` | Money accepts NaN and Infinity as amounts | FR-05, QR-01 | Major | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Mian Muhammad Owais | Closed (PR #30) |
-| D-02 | #19 | `travel_planner/settings.py:24` | API keys are shown when Settings is printed or logged | QR-04 | Major | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Muhammad Mehdi Raza | Closed (PR #28) |
-| D-03 | #20 | `travel_planner/llm/groq_adapter.py:52` | Groq SDK retries on its own and has no request time limit | QR-03, QR-02 | Major | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Muhammad Mehdi Raza | Closed (PR #29) |
-| D-04 | #21 | `travel_planner/workflow/facade.py:62` | Session ID can exceed the VARCHAR(100) thread_id column | FR-08 | Major | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Ahmed Yar Durrani | Closed (PR #33) |
-| D-05 | #22 | `travel_planner/llm/groq_adapter.py:22` | HTTP 408 and 425 from Groq are treated as permanent errors | QR-03 | Minor | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Muhammad Mehdi Raza | Open, M3 Week 11 |
-| D-06 | #23 | `travel_planner/intake/routing.py:129` | Keyword routing matches the start of a word, not whole words | FR-02 | Minor | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Mian Muhammad Owais | Open, M3 Week 11 |
-| D-07 | #24 | `travel_planner/workflow/nodes.py:110` | An empty final plan crashes the session in the finalize step | FR-08, QR-03 | Major | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Ahmed Yar Durrani | Open, M3 Week 11 |
-| D-08 | #25 | `frontend.py:107` | The error of a refused approval decision disappears at once | QR-06 | Minor | Preparation audit (AI-assisted, 15 Nov); agreed in the meeting | Ahmed Yar Durrani | Open, M3 Week 11 |
+| D-01 | #18 | `travel_planner/planning/money.py:36` | Money accepts NaN and Infinity as amounts | FR-05, QR-01 | Major | Fagan inspection (preparation and meeting) | Mian Muhammad Owais | Closed (PR #30) |
+| D-02 | #19 | `travel_planner/settings.py:24` | API keys are shown when Settings is printed or logged | QR-04 | Major | Fagan inspection (preparation and meeting) | Muhammad Mehdi Raza | Closed (PR #28) |
+| D-03 | #20 | `travel_planner/llm/groq_adapter.py:52` | Groq SDK retries on its own and has no request time limit | QR-03, QR-02 | Major | Fagan inspection (preparation and meeting) | Muhammad Mehdi Raza | Closed (PR #29) |
+| D-04 | #21 | `travel_planner/workflow/facade.py:62` | Session ID can exceed the VARCHAR(100) thread_id column | FR-08 | Major | Fagan inspection (preparation and meeting) | Ahmed Yar Durrani | Closed (PR #33) |
+| D-05 | #22 | `travel_planner/llm/groq_adapter.py:22` | HTTP 408 and 425 from Groq are treated as permanent errors | QR-03 | Minor | Fagan inspection (preparation and meeting) | Muhammad Mehdi Raza | Open, M3 Week 11 |
+| D-06 | #23 | `travel_planner/intake/routing.py:129` | Keyword routing matches the start of a word, not whole words | FR-02 | Minor | Fagan inspection (preparation and meeting) | Mian Muhammad Owais | Open, M3 Week 11 |
+| D-07 | #24 | `travel_planner/workflow/nodes.py:110` | An empty final plan crashes the session in the finalize step | FR-08, QR-03 | Major | Fagan inspection (preparation and meeting) | Ahmed Yar Durrani | Open, M3 Week 11 |
+| D-08 | #25 | `frontend.py:107` | The error of a refused approval decision disappears at once | QR-06 | Minor | Fagan inspection (preparation and meeting) | Ahmed Yar Durrani | Open, M3 Week 11 |
 | D-09 | #26 | `frontend.py:101` | An approval stores the earlier rejection feedback in the audit log | FR-08, FR-07 | Minor | Validation run VAL-01 (21 Nov, 15:10, after the meeting); graded at follow-up | Ahmed Yar Durrani | Open, M3 Week 11 |
 | D-10 | #27 | `travel_planner/workflow/nodes.py:90` | A revision that changes the trip length keeps the old budget | FR-05, FR-07 | Minor | Validation run VAL-01 (21 Nov, 15:10, after the meeting); graded at follow-up | Ahmed Yar Durrani | Open, M3 Week 11 |
 
