@@ -10,7 +10,7 @@
 | pylint score, `frontend.py` | 9.44 | 9.67 |
 | pylint findings, CI scope | 114 | 101 |
 | Errors and warnings | 0 | 0 |
-| Average cyclomatic complexity | A (2.43) | A (2.43) |
+| Average cyclomatic complexity | A (2.43) | A (2.44) |
 
 | ID | Finding | Count | Triage | Action |
 |---|---|---|---|---|
